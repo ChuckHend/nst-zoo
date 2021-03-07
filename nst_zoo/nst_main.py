@@ -9,8 +9,6 @@ import torch
 
 def main(nst_config: NSTConfig) -> None:
     """
-    Currently just loops through gatys-vgg19 layers to generate various style configurations
-
     1) Preprocess image in accordance with torchvision model subset
 
     2) Store target gram matrices once (only requires 1 forward pass, so calculating before optimizing
