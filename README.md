@@ -1,4 +1,5 @@
 ### nst_zoo
+![frontispiece](img/frontispiece.png)
 (work in progress)
 
 - Does the world really need another repo for neural style transfer?
