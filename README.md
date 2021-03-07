@@ -27,7 +27,7 @@ Probably not, but I think this one is unique in that it supports all combination
 -  The default device for CUDA is `1`, but you may override this via the environment variable `CUDA`
 
 
-#### Contributing:
+## Contributing:
 - This repo is not yet ready for contributions. I will update the README when this changes.
 
 
