@@ -40,7 +40,9 @@ def normalize_by_stddev(tensor):
 
 def style_loss(
         generated_activations: List[torch.Tensor],
-        style_gram_matrices: List[torch.Tensor]
+        style_gram_matrices: List[torch.Tensor],
+        gram_class: nn.Module = GramMatrix
+
 ) -> List[torch.Tensor]:
     """
     Calculate MSE of generated activations' Gram matrices vs target activation's Gram matrices
@@ -59,21 +61,7 @@ def style_loss(
     -------
     list of loss corresponding with each activation that was passed
     """
-    generated_gram_matrices = [GramMatrix()(i) for i in generated_activations]
-    return [nn.MSELoss()(generated, target) for generated, target in zip(generated_gram_matrices, style_gram_matrices)]
-
-
-def style_loss_normalized(
-        generated_activations: List[torch.Tensor],
-        style_gram_matrices: List[torch.Tensor]
-) -> List[torch.Tensor]:
-    """
-    Does the same exact thing as style_loss, but uses NormalizedGramMatrix instead
-
-    There's probably a better way to do this
-
-    """
-    generated_gram_matrices = [NormalizedGramMatrix()(i) for i in generated_activations]
+    generated_gram_matrices = [gram_class()(i) for i in generated_activations]
     return [nn.MSELoss()(generated, target) for generated, target in zip(generated_gram_matrices, style_gram_matrices)]
 
 
@@ -92,13 +80,14 @@ class NSTLoss(nn.Module):
             style_targets=None,
             style_weights=None,
             style_loss_fn=None,
+            style_gram_class: nn.Module = None,
             content_targets=None,
             content_weights=None,
             content_loss_fn=None,
             alpha=None
     ):
         super(NSTLoss, self).__init__()
-        self._init_style(style_targets, style_weights, style_loss_fn)
+        self._init_style(style_targets, style_weights, style_loss_fn, style_gram_class)
         self._init_content(content_targets, content_weights, content_loss_fn)
         self.alpha=alpha
 
@@ -106,14 +95,15 @@ class NSTLoss(nn.Module):
         if content_targets or content_weights or content_loss_fn:
             raise NotImplementedError
 
-    def _init_style(self, style_targets, style_weights, style_loss_fn):
-        if style_targets or style_weights or style_loss_fn:
+    def _init_style(self, style_targets, style_weights, style_loss_fn, style_gram_class):
+        if style_targets or style_weights or style_loss_fn or style_gram_class:
             if not (style_targets and style_weights and style_loss_fn):
                 raise ValueError("If providing any style arguments, you mmust provide ALL style arguments")
 
         self.style_targets = style_targets
         self.style_weights = style_weights
         self.style_loss_fn = style_loss_fn
+        self.style_gram_class = style_gram_class
 
     def forward(self, generated_style_activations=None, generated_content_activations=None):
         """
@@ -133,7 +123,7 @@ class NSTLoss(nn.Module):
         style_losses = []
 
         if generated_style_activations:
-            style_losses = self.style_loss_fn(generated_style_activations, self.style_targets)
+            style_losses = self.style_loss_fn(generated_style_activations, self.style_targets, self.style_gram_class)
             style_losses = [weight * loss for weight, loss in zip(self.style_weights, style_losses)]
 
         if generated_content_activations:
