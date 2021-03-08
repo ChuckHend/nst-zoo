@@ -22,6 +22,10 @@ Probably not, but I think this one is unique in that it supports all combination
 - Currently only supports Style targets (will raise `NotImplementedError` if Content targets are passed)
 - See [NSTConfig](https://github.com/Nick-Morgan/nst-zoo/blob/main/nst_zoo/config.py) for all configuration options
 
+#### Batch Processing
+- You may find use in the `nst-processor` command if you plan to evaluate many configurations.
+- See the [batch_processing README](https://github.com/Nick-Morgan/nst-zoo/blob/main/nst_zoo/batch_processing/README.md) for more info 
+
 #### CUDA:
 - `docker-compose.yml` and `Dockerfile` are provided for convenience
 -  The default device for CUDA is `1`, but you may override this via the environment variable `CUDA`
