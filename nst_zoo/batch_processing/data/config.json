@@ -1,0 +1,16 @@
+{
+    "model": ["vgg11", "vgg13", "vgg16", "vgg19"],
+    "pool": ["max", "avg"],
+    "style_img": ["nst_zoo/data/style/vangogh_starry_night.jpg"],
+    "style_layers": [
+        {"ReLU": [0]},
+        {"ReLU": [0, 2]},
+        {"ReLU": [0, 2, 4]},
+        {"ReLU": [0, 2, 4, 8]},
+        {"ReLU": [0, 2, 4, 8, 12]}
+    ],
+    "style_gram_class": ["NormalizedGramMatrix"],
+    "optimization_method": ["LBFGS"],
+    "optimization_kwargs": [{"line_search_fn": "strong_wolfe"}],
+    "save_as": ["hash"]
+}

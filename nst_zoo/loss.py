@@ -96,11 +96,9 @@ class NSTLoss(nn.Module):
             raise NotImplementedError
 
     def _init_style(self, style_targets, style_weights, style_loss_fn, style_gram_class):
-        if style_targets or style_weights or style_loss_fn or style_gram_class:
-            if not (style_targets and style_weights and style_loss_fn):
-                raise ValueError("If providing any style arguments, you mmust provide ALL style arguments")
-
         self.style_targets = style_targets
+        if not style_weights:
+            style_weights = [1 / len(style_targets) for _ in style_targets]
         self.style_weights = style_weights
         self.style_loss_fn = style_loss_fn
         self.style_gram_class = style_gram_class

@@ -67,6 +67,7 @@ if __name__ == '__main__':
             style_gram_class="NormalizedGramMatrix",
             optimization_method="LBFGS",
             optimization_kwargs={"line_search_fn": "strong_wolfe"},
-            output_filepath=f"nst_zoo/data/generated/vangogh_style_{style_id}.jpg"
+            save_as="hash",
+            #output_filepath=f"nst_zoo/data/generated/vangogh_style_{style_id}.jpg"
         )
         main(nst_config)
