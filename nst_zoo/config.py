@@ -50,6 +50,9 @@ class NSTConfig:
                 self.output_filepath = f"nst_zoo/data/generated/{content_name}_{style_name}.jpg"
 
     def _md5(self):
+        """
+        When batch processing, it becomes useful to generate a hash of the configuration as the filename.
+        """
         populated = {k: v for k, v in vars(self).items() if v and k != "output_filepath"}
         return hashlib.md5(
             json.dumps(populated, sort_keys=True).encode('utf-8')
