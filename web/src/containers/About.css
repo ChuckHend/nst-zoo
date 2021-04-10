@@ -1,0 +1,35 @@
+.About .lander {
+  padding: 20px 0;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  text-align: center
+}
+
+
+.About .about p {
+  text-align: center;
+  font-weight: 600;
+  /* padding-bottom: 80px; */
+}
+
+#costTable {
+  margin: 0 auto;
+  text-align: left;
+}
+
+#benefitRow {
+  margin: 0 auto;
+  font-size: small;
+}
+
+#roiImg {
+  size: 50%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+

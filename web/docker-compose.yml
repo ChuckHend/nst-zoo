@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  npm-build:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    env_file:
+      - ${SECRETS:-./environment}
+    ports:
+      - 3000:3000
+    volumes:
+      - ${PWD}:/usr/src/
